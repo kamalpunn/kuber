@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "pod-gitrepo-vol-test"
+spec:
+  selector:
+    matchLabels:
+      by: kpunn
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        by: kpunn
+    spec:
+      containers:
+        - name: httpd
+          image: httpd
+          ports:
+            - name: httpd
+              containerPort: 80
+          volumeMounts:
+             - name: gitrepodemo
+               mountPath: /kamal
+      volumes:
+          - name: gitrepodemo
+            gitRepo:
+                repository: https://github.com/luksa/kubia-website-example.git
+                revision: master
+                directory: .

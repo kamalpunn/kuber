@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "containers2-pod-vol-test"
+spec:
+  selector:
+    matchLabels:
+      by: kpunn
+      env: dev
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        by: kpunn
+        env: dev
+    spec:
+      containers:
+        - name: httpd
+          image: httpd
+          ports:
+            - name: httpd
+              containerPort: 80
+          volumeMounts:
+             - name: common-vol
+               mountPath: /kamal
+        - name: nexus
+          image: sonatype/nexus3
+          ports:
+            - name: nexus
+              containerPort: 8081
+          volumeMounts:
+             - name: common-vol
+               mountPath: /tmp/kamal
+      volumes:
+          - name: common-vol
+            emptyDir: {}
